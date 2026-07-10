@@ -7,4 +7,4 @@ matplotlib==3.10.5
 scikit-learn==1.7.1
 
 streamlit-webrtc==0.63.3
-av==14.4.0
+av==12.3.0
