@@ -3,7 +3,11 @@ import cv2
 import numpy as np
 from PIL import Image
 import av
-from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
+from streamlit_webrtc import (
+    webrtc_streamer,
+    VideoProcessorBase,
+    RTCConfiguration
+)
 
 from predict import (
     detect_faces,
@@ -154,6 +158,15 @@ if mode == "📸 Capture Photo":
 # ==================================================
 
 else:
+    RTC_CONFIGURATION = RTCConfiguration(
+    {
+        "iceServers": [
+            {
+                "urls": ["stun:stun.l.google.com:19302"]
+            }
+        ]
+    }
+)
 
     class EmotionProcessor(VideoProcessorBase):
 
@@ -219,6 +232,7 @@ else:
         key="emotion",
 
         video_processor_factory=EmotionProcessor,
+         rtc_configuration=RTC_CONFIGURATION,
 
         media_stream_constraints={
 
