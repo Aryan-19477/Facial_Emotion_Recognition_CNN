@@ -70,7 +70,11 @@ with st.sidebar:
 
 mode = st.radio(
     "Choose Input Method",
-    ["📸 Capture Photo", "🎥 Live Webcam"],
+    [
+        "📸 Capture Photo",
+        "🖼️ Upload Image",
+        "🎥 Live Webcam"
+    ],
     horizontal=True
 )
 
@@ -152,7 +156,83 @@ if mode == "📸 Capture Photo":
                     st.progress(float(p))
 
                     st.caption(f"{p*100:.2f}%")
+# ==================================================
+# UPLOAD IMAGE
+# ==================================================
 
+elif mode == "🖼️ Upload Image":
+
+    uploaded_file = st.file_uploader(
+        "🖼️ Upload an image",
+        type=["jpg", "jpeg", "png"]
+    )
+
+    if uploaded_file:
+
+        with st.spinner("Predicting emotion..."):
+
+            image = Image.open(uploaded_file)
+
+            image = np.array(image)
+
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+            faces = detect_faces(image)
+
+            if len(faces) == 0:
+
+                st.warning("No face detected. Please upload another image.")
+
+            else:
+
+                x, y, w, h = faces[0]
+
+                face = image[y:y+h, x:x+w]
+
+                emotion, emoji, confidence, probs = predict_emotion(face)
+
+                cv2.rectangle(
+                    image,
+                    (x, y),
+                    (x+w, y+h),
+                    (0,255,0),
+                    2
+                )
+
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+                st.image(
+                    image,
+                    use_container_width=True
+                )
+
+                st.subheader("Prediction")
+
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    st.metric(
+                        "Emotion",
+                        f"{emoji} {emotion}"
+                    )
+
+                with col2:
+                    st.metric(
+                        "Confidence",
+                        f"{confidence*100:.2f}%"
+                    )
+
+                st.divider()
+
+                st.subheader("Class Probabilities")
+
+                for label, p in zip(classes, probs):
+
+                    st.write(f"**{label.capitalize()}**")
+
+                    st.progress(float(p))
+
+                    st.caption(f"{p*100:.2f}%")
 # ==================================================
 # LIVE WEBCAM
 # ==================================================
