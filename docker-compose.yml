@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  facial-emotion-app:
+    build:
+      context: .
+    container_name: facial-emotion-app
+    ports:
+      - "8501:8501"
+    restart: unless-stopped

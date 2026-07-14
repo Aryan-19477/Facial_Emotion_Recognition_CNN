@@ -63,24 +63,25 @@ The predicted emotion is displayed along with its confidence score.
 
 - FER2013
 
-### Deployment
+### Deployment & Containerization
 
 - Render
+- Docker
+- Docker Compose
 
 ---
-
 # 📂 Project Structure
-
-```
+```text
 Facial_Emotion_Recognition_CNN/
-
-│
 ├── app.py
 ├── predict.py
 ├── emotion_model.keras
-├── render.yaml
 ├── haarcascade_frontalface_default.xml
 ├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
+├── render.yaml
 ├── README.md
 └── Facial_Emotion_Recognition_CNN.ipynb
 ```
@@ -195,7 +196,13 @@ Capture Photo   Live Webcam   Upload Image
 
 # 🌐 Deployment
 
-The application was first developed and tested locally using Streamlit.
+The application can be run locally using either:
+
+- Python + Streamlit
+- Docker
+- Docker Compose
+
+The project is deployed on Render for online access.
 
 Run locally:
 
@@ -219,10 +226,26 @@ Render
         ▼
 Live Web Application
 ```
+# 📋 Prerequisites
 
+Choose **one** of the following methods to run the project.
+
+### Method 1 (Recommended)
+
+Install:
+
+- Docker
+- Docker Compose (included with Docker Desktop on Windows/macOS)
+
+### Method 2
+
+Install:
+
+- Python 3.11+
+- pip
 ---
 
-# ⚙ Installation
+# ⚙ Run Locally (Python)
 
 Clone the repository
 
@@ -261,7 +284,63 @@ Run the application
 ```bash
 streamlit run app.py
 ```
+# 🐳 Run with Docker
 
+Clone the repository
+
+```bash
+git clone https://github.com/Aryan-19477/Facial_Emotion_Recognition_CNN.git
+```
+
+Move into the project directory
+
+```bash
+cd Facial_Emotion_Recognition_CNN
+```
+
+Build the Docker image
+
+```bash
+docker build -t facial-emotion-app .
+```
+
+Run the container
+
+```bash
+docker run -p 8501:8501 facial-emotion-app
+```
+
+Open your browser and visit:
+
+```
+http://localhost:8501
+```
+---
+# 🐙 Run with Docker Compose
+
+Build and start the application
+
+```bash
+docker compose up --build
+```
+
+Run in detached mode
+
+```bash
+docker compose up -d --build
+```
+
+Stop the application
+
+```bash
+docker compose down
+```
+
+Once the container is running, open:
+
+```
+http://localhost:8501
+```
 ---
 
 # 📸 Application Features
@@ -307,6 +386,8 @@ This project helped me gain practical experience in:
 - Deep learning model optimization
 - Model deployment using Render
 - End-to-end machine learning project development
+- Docker containerization
+- Docker Compose
 
 ---
 
